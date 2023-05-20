@@ -1,20 +1,31 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import { Box, NativeBaseProvider } from "native-base";
+import { theme } from "./src/themes/theme";
+import { Routes } from "./src/routes";
+
+import * as Notifications from "expo-notifications";
+import { useEffect } from "react";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: true,
+  }),
+});
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <>
+      <StatusBar style="light" />
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <NativeBaseProvider theme={theme}>
+          <Box flex="1" bg="black">
+            <Routes />
+          </Box>
+        </NativeBaseProvider>
+      </GestureHandlerRootView>
+    </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
